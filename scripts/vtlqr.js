@@ -4,8 +4,8 @@ const video = document.getElementById('video');
 const serialInput = document.getElementById('serialNumber');
 const poInput = document.getElementById('poNumber');
 const modelInput = document.getElementById('modelNumber');
-const dateInput = document.getElementById('date');
-const timeInput = document.getElementById('time');
+const dateInput = new Date();
+const timeInput = new Date();
 const historyTable = document.getElementById('historyTable');
 
 const codeReader = new ZXing.BrowserMultiFormatReader();
