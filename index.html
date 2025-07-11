@@ -67,12 +67,14 @@
 
   <video id="video" autoplay muted playsinline></video>
   <div id="result">Nội dung quét sẽ hiện ở đây</div>
+  <div id="result1"></div>
 
   <script>
     const startButton = document.getElementById('startButton');
     const stopButton  = document.getElementById('stopButton');
     const video       = document.getElementById('video');
     const resultDiv   = document.getElementById('result');
+    const resultQR   = document.getElementById('result1');
     const codeReader  = new ZXing.BrowserMultiFormatReader();
 
     let currentDeviceId;
@@ -91,7 +93,7 @@
       // Bắt đầu quét từ thiết bị
       codeReader.decodeFromVideoDevice(currentDeviceId, video, (result, err) => {
         if (result) {
-          resultDiv.textContent = 'Nội dung: ' + result.getText();
+          resultQR.textContent = 'Nội dung: ' + result.getText();
           // Nếu muốn dừng sau khi quét được lần đầu, uncomment dòng sau:
           // stopScanning();
         }
