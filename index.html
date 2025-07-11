@@ -76,7 +76,13 @@
     const resultDiv   = document.getElementById('result');
     const resultQR   = document.getElementById('result1');
     const codeReader  = new ZXing.BrowserMultiFormatReader();
-
+    const now = new Date();
+    const hh   = String(now.getHours()).padStart(2, '0');
+    const mm   = String(now.getMinutes()).padStart(2, '0');
+    const ss   = String(now.getSeconds()).padStart(2, '0');
+    const dd   = String(now.getDate()).padStart(2, '0');
+    const MM   = String(now.getMonth() + 1).padStart(2, '0');
+    const yyyy = now.getFullYear();
     let currentDeviceId;
 
     // Hàm khởi động quét
@@ -93,7 +99,7 @@
       // Bắt đầu quét từ thiết bị
       codeReader.decodeFromVideoDevice(currentDeviceId, video, (result, err) => {
         if (result) {
-          resultQR.textContent = 'Nội dung: ' + result.getText();
+          resultQR.textContent = 'Mã của sản phẩm lúc ${hh}:${mm}:${ss} ngày ${dd}/${MM}/${yyyy}: ' + result.getText();
           // Nếu muốn dừng sau khi quét được lần đầu, uncomment dòng sau:
           // stopScanning();
         }
