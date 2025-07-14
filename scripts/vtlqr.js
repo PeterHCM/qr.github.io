@@ -5,7 +5,6 @@ const serialInput = document.getElementById('serialNumber');
 const poInput = document.getElementById('poNumber');
 const modelInput = document.getElementById('modelNumber');
 const historyTable = document.getElementById('historyTable');
-
 const codeReader = new ZXing.BrowserMultiFormatReader();
 let currentDeviceId;
 let sttCounter = 1;
@@ -17,38 +16,37 @@ function getCurrentDateTime() {
 	const time = now.toLocaleTimeString('vi-VN');
 	return { date, time };
 }
-
-// ✅ Bắt đầu quét QR
+// ✅ Bắt đầu quét QR (chỉ dùng camera sau)
 async function startScanning() {
-	scanButton.disabled = true;
-
-	try {
-		const devices = await codeReader.listVideoInputDevices();
-		if (!devices || devices.length === 0) {
-			alert("Không tìm thấy thiết bị camera.");
-			scanButton.disabled = false;
-			return;
+  scanButton.disabled = true;
+  try {
+    // Yêu cầu quyền camera để lấy label đầy đủ
+    await navigator.mediaDevices.getUserMedia({ video: true });
+    const devices = await codeReader.listVideoInputDevices();
+    // Chỉ chọn camera sau
+    const backCam = devices.find(d => /back|rear|environment/i.test(d.label));
+    if (!backCam) {
+		alert("Không tìm thấy camera sau. Vui lòng kiểm tra thiết bị.");
+		scanButton.disabled = false;
+		return;
+    }
+	currentDeviceId = backCam.deviceId;
+    codeReader.decodeFromVideoDevice(currentDeviceId, video, (result, err) => {
+		if (result) {
+			serialInput.value = result.getText();
+			stopScanning();
+			saveData(); // Tự động lưu sau khi quét
 		}
-
-		const backCam = devices.find(d => /back|rear|environment/i.test(d.label)) || devices[0];
-		currentDeviceId = backCam.deviceId;
-
-		codeReader.decodeFromVideoDevice(currentDeviceId, video, (result, err) => {
-			if (result) {
-				serialInput.value = result.getText();
-				stopScanning();
-				saveData(); // Tự động lưu sau khi quét
-			}
-			if (err && !(err instanceof ZXing.NotFoundException)) {
-				console.error(err);
-			}
-		});
+		if (err && !(err instanceof ZXing.NotFoundException)) {
+			console.error(err);
+		}
+    });
 	} catch (error) {
 		console.error("Lỗi khi truy cập camera:", error);
+		alert("Không thể truy cập camera. Vui lòng kiểm tra quyền thiết bị.");
 		scanButton.disabled = false;
 	}
 }
-
 // ✅ Dừng camera
 function stopScanning() {
 	codeReader.reset();
@@ -61,16 +59,12 @@ function saveData() {
 	const po = poInput.value.trim();
 	const model = modelInput.value.trim();
 	const serial = serialInput.value.trim();
-
 	if (!po || !model || !serial) {
 		alert("Vui lòng nhập đầy đủ thông tin trước khi lưu.");
 		return;
 	}
-
 	const { date, time } = getCurrentDateTime();
-
 	sendToGoogleForm(po, model, date, time, serial);
-
 	const row = document.createElement('tr');
 	row.innerHTML = `
 		<td>${sttCounter++}</td>
@@ -87,27 +81,25 @@ function saveData() {
 function sendToGoogleForm(po, model, date, time, serial) {
 	const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSfv2eU5P0e8qFU42ORx9FFshzqIC-_XVzViDnhw4fqV6bOGzg/formResponse";
 	const formData = new FormData();
-	formData.append("entry.2005620554", po);		 // Số PO
-	formData.append("entry.1045781291", model);	// Model
-	formData.append("entry.1166974658", date);	 // Ngày
-	formData.append("entry.1065046570", time);	 // Giờ
-	formData.append("entry.839337160", serial);	// Serial Number
-
+	formData.append("entry.2005620554", po);     // Số PO
+	formData.append("entry.1045781291", model);  // Model
+	formData.append("entry.1166974658", date);   // Ngày
+	formData.append("entry.1065046570", time);   // Giờ
+	formData.append("entry.839337160", serial);  // Serial Number
 	fetch(formURL, {
 		method: "POST",
 		mode: "no-cors",
 		body: formData
-	}).then(() => {
-		console.log("✅ Đã gửi dữ liệu lên Google Form");
-	}).catch(err => {
-		console.error("❌ Lỗi gửi dữ liệu:", err);
+		}).then(() => {
+			console.log("✅ Đã gửi dữ liệu lên Google Form");
+		}).catch(err => {
+			console.error("❌ Lỗi gửi dữ liệu:", err);
 	});
 }
 
 // ✅ Sự kiện nút
 scanButton.addEventListener('click', startScanning);
 saveButton.addEventListener('click', saveData);
-
 // ✅ Tự động dừng camera khi chuyển tab
 document.addEventListener("visibilitychange", () => {
 	if (document.hidden) {
