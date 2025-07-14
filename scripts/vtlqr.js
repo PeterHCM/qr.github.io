@@ -78,13 +78,16 @@ function vibrateDevice() {
     navigator.vibrate([100, 50, 100]);
   }
 }
-
 async function scanToInput(targetInput, button) {
   if (scanning) {
     stopScanning();
     button.textContent = "📷";
     return;
   }
+
+  // ✅ Reset camera và xóa giá trị cũ
+  stopScanning();
+  targetInput.value = ""; // ✅ Xóa trắng input trước khi quét
 
   scanning = true;
   button.textContent = "⏹";
