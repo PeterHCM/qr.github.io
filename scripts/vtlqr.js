@@ -1,8 +1,6 @@
 const video = document.getElementById('video');
 const historyTable = document.getElementById('historyTable');
-const cameraSelect = document.getElementById('cameraOptions');
 const codeReader = new ZXing.BrowserMultiFormatReader();
-let currentDeviceId;
 let sttCounter = 1;
 let scanning = false;
 
@@ -92,19 +90,7 @@ async function scanToInput(targetInput, button) {
   button.textContent = "⏹";
 
   try {
-    const selectedDeviceId = cameraSelect.value;
-    console.log("Camera đang chọn:", selectedDeviceId);
-
-    if (!selectedDeviceId) {
-      alert("Không tìm thấy thiết bị camera nào. Vui lòng kiểm tra kết nối hoặc cấp quyền.");
-      scanning = false;
-      button.textContent = "📷";
-      return;
-    }
-
-    currentDeviceId = selectedDeviceId;
-
-    codeReader.decodeFromVideoDevice(currentDeviceId, video, (result, err) => {
+    codeReader.decodeFromVideoDevice(null, video, (result, err) => {
       if (result) {
         targetInput.value = result.getText();
         console.log("✅ Đã quét:", result.getText());
@@ -127,37 +113,7 @@ async function scanToInput(targetInput, button) {
   }
 }
 
-async function populateCameraOptions() {
-  try {
-    await navigator.mediaDevices.getUserMedia({ video: true });
-    const devices = await codeReader.listVideoInputDevices();
-
-    cameraSelect.innerHTML = "";
-
-    if (devices.length === 0) {
-      alert("Không tìm thấy thiết bị camera nào. Vui lòng kiểm tra kết nối hoặc cấp quyền.");
-      return;
-    }
-
-    devices.forEach(device => {
-      const option = document.createElement("option");
-      option.value = device.deviceId;
-      option.text = device.label || `Camera ${cameraSelect.length + 1}`;
-      cameraSelect.appendChild(option);
-      console.log("Camera đã thêm:", option.textContent);
-    });
-
-    cameraSelect.selectedIndex = 0;
-    console.log("Camera mặc định đã chọn:", cameraSelect.value);
-  } catch (error) {
-    console.error("Không thể lấy danh sách camera:", error);
-    alert("Không thể truy cập camera. Vui lòng kiểm tra quyền truy cập.");
-  }
-}
-
 window.addEventListener("load", () => {
-  populateCameraOptions();
-
   const poInput = document.querySelector(".poInput");
   const modelInput = document.querySelector(".modelInput");
   const descriptionInput = document.querySelector(".descriptionInput");
