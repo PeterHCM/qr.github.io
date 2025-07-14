@@ -139,21 +139,27 @@ window.addEventListener("load", () => {
   document.querySelector(".scanSerial").addEventListener("click", function () {
     scanToInput(serialInput, this);
   });
-
+ 
   document.querySelector(".saveBtn").addEventListener("click", () => {
-    const po = poInput.value.trim();
-    const model = modelInput.value.trim();
-    const serial = serialInput.value.trim();
+  const po = poInput.value.trim();
+  const model = modelInput.value.trim();
+  const serial = serialInput.value.trim();
 
-    if (!po || !model || !serial) {
-      alert("Vui lòng nhập đầy đủ thông tin trước khi lưu.");
-      return;
-    }
+  if (!po || !model || !serial) {
+    alert("Vui lòng nhập đầy đủ thông tin trước khi lưu.");
+    return;
+  }
 
-    const { date, time } = getCurrentDateTime();
-    sendToGoogleForm(po, model, date, time, serial);
-    saveToTable(po, model, serial, date, time);
-  });
+  const { date, time } = getCurrentDateTime();
+  sendToGoogleForm(po, model, date, time, serial);
+  saveToTable(po, model, serial, date, time);
+
+  // ✅ Dừng camera sau khi lưu
+  stopScanning();
+
+  // ✅ Reset Serial để chuẩn bị quét tiếp
+  serialInput.value = "";
+});
 });
 
 document.addEventListener("visibilitychange", () => {
