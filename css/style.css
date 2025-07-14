@@ -6,83 +6,20 @@ body {
   color: #333;
 }
 p {
-    font-family: 'Open Sans', sans-serif;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased !important;
-    line-height: 26px;
-    font-size: 15px;
+  font-family: 'Open Sans', sans-serif;
+  line-height: 26px;
+  font-size: 15px;
 }
+h1, h2 {
+  color: rgb(0, 99, 97);
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
+}
+h1 { font-size: 36px; line-height: 48px; }
+h2 { font-size: 28px; line-height: 36px; text-transform: uppercase; }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    color: rgb(0, 99, 97);
-    font-weight: 700;
-    font-family: 'Montserrat', sans-serif;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased !important;
-}
-
-h1 {
-    font-size: 36px;
-    line-height: 48px;
-}
-
-h2 {
-    font-size: 28px;
-    line-height: 36px;
-    text-transform: uppercase;
-    letter-spacing: -1px;
-}
-
-h3 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    letter-spacing: -.5px;
-}
-
-h4 {
-    font-size: 18px;
-    line-height: 28px;
-    text-transform: uppercase;
-    letter-spacing: -.2px;
-}
-
-h5 {
-    font-size: 14px;
-    line-height: 24px;
-}
-
-a:link,
-a:visited {
-    text-decoration: none;
-}
-
-a {
-    color: inherit;
-    transition: .2s ease;
-}
-
-a:hover {
-    text-decoration: none;
-    color: #000;
-}
-
-a.read-more {
-    color: rgb(224, 104, 0);
-    font-weight: 700;
-    text-transform: uppercase;
-}
-
-a.read-more:hover {
-    color: #222;
-}
 menu {
-  background-color: rgb(0, 99, 97); /* Màu xanh logo */
+  background-color: rgb(0, 99, 97);
   color: white;
   padding: 15px 20px;
   text-align: center;
@@ -92,56 +29,55 @@ main {
   max-width: 800px;
   margin: auto;
 }
-
-form {
+.scan-row {
   background-color: #fff;
   padding: 20px;
-  border-left: 5px solid rgb(224, 104, 0);
+  border-left: 5px solid rgb(0, 99, 97);
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  margin-bottom: 30px;
 }
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-label {
-  display: block;
+.scan-row label {
   font-weight: bold;
-  margin-bottom: 5px;
+  display: block;
+  margin-top: 10px;
 }
-
-input {
-  width: 100%;
+.input-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+}
+.input-group input {
+  flex: 1;
   padding: 8px;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-
-.buttons {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  border: none;
-  color: white;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-#scanButton {
-  background-color: rgb(0, 99, 97);
-}
-
-#saveButton {
+.input-group button {
+  padding: 8px 12px;
   background-color: rgb(224, 104, 0);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
-
+.input-group button:hover {
+  background-color: rgb(200, 90, 0);
+}
+.saveBtn {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: rgb(0, 99, 97);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.saveBtn:hover {
+  background-color: rgb(0, 80, 78);
+}
 video {
   width: 100%;
   max-width: 600px;
@@ -149,34 +85,55 @@ video {
   border-radius: 8px;
   border: 2px solid #ccc;
 }
-
+.camera-select {
+  margin-top: 20px;
+  font-size: 15px;
+}
+.camera-select label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+#cameraOptions {
+  padding: 6px;
+  font-size: 15px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+.qr-link {
+  margin-top: 30px;
+  font-size: 16px;
+  font-weight: bold;
+  color: rgb(0, 99, 97);
+}
+.qr-link a {
+  color: rgb(224, 104, 0);
+  text-decoration: none;
+}
+.qr-link a:hover {
+  text-decoration: underline;
+}
 #history {
   margin-top: 30px;
 }
-
 table {
   width: 100%;
   border-collapse: collapse;
   background-color: #fff;
 }
-
 th, td {
   padding: 10px;
   border: 1px solid #ddd;
   text-align: center;
 }
-
 th {
   background-color: rgb(0, 99, 97);
   color: white;
 }
-
 header {
   color: rgb(0, 99, 97);
   padding: 15px 20px;
   text-align: center;
 }
-
 .logo-container {
   display: flex;
   align-items: center;
@@ -185,7 +142,7 @@ header {
   margin: auto;
 }
 .logo {
-  height: 60px; /* 👈 Giảm kích thước logo */
+  height: 60px;
   width: auto;
   object-fit: contain;
 }
@@ -197,22 +154,10 @@ footer {
   margin-top: 40px;
   font-size: 14px;
 }
-
-footer a {
-  color: rgb(224, 104, 0);
-  text-decoration: none;
-  font-weight: bold;
-}
-
-footer a:hover {
-  text-decoration: underline;
-}
-
 .footer-content {
   max-width: 800px;
   margin: auto;
 }
-
 footer .copyright {
   margin-top: 10px;
 }
