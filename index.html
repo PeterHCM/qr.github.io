@@ -1,74 +1,101 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<title>Quét QR Code - Công Ty TNHH Ky Thuật Việt Thắng Lợi</title>
-	<LINK REL="SHORTCUT ICON" HREF="favicon.ico"> 
-	<link rel="stylesheet" href="css/style.css" />
-	<script src="scripts/index.min.js"></script>
-	<script src="scripts/vtlqr.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quét QR Code - Việt Thắng Lợi</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="scripts/index.min.js"></script>
+  <script src="scripts/vtlqr.js" defer></script>
 </head>
 <body>
-	<header>
-		<div class="logo-container">
-			<img src="img/vtl_logo.png" alt="Logo VTL" class="logo" />
-			<h1 style="margin: 0;">Hệ thống quét QR Code</h1>
-		</div>
-	</header>
-	<menu>
-	</menu>
-	<main>
-		<form id="scanForm">
-			<div class="form-group">
-				<label>Số PO:</label>
-				<input type="text" id="poNumber" />
-			</div>
-			<div class="form-group">
-				<label>Model:</label>
-				<input type="text" id="modelNumber" />
-			</div>
-			<div class="form-group">
-				<label>Serial Number:</label>
-				<input type="text" id="serialNumber" />
-			</div>
-			<div class="buttons">
-				<button type="button" id="scanButton">Quét</button>
-				<button type="button" id="saveButton">Lưu</button>
-			</div>
-		</form>
+  <header>
+    <div class="logo-container">
+      <img src="img/vtl_logo.png" alt="Logo VTL" class="logo" />
+      <h1>📦 Hệ thống quét QR Code</h1>
+    </div>
+  </header>
 
-		<video id="video" autoplay muted playsinline></video>
-		<section id="history">
-			<h4>Lịch sử lưu</h4>
-			<table>
-				<thead>
-					<tr>
-						<th>STT</th>
-						<th>Số PO</th>
-						<th>Model</th>
-						<th>Serial Number</th>
-						<th>Ngày</th>
-						<th>Giờ</th>
-					</tr>
-				</thead>
-				<tbody id="historyTable"></tbody>
-			</table>
-			
-			<h4>📄 Dữ liệu quét mã được tổng hợp tại bảng sau:</h4>
-			<p>
-				<a href="https://docs.google.com/spreadsheets/d/1o3eLseq4V9girr3-zMv73Fi8O8HSXaevqm35ehcie-0/edit?gid=475993363" target="_blank">
-					Mở bảng tổng kết quét mã QR
-				</a>
-			</p>
-		</section>
-	</main>
-	<footer>
-		<div class="footer-content"			
-			<p class="copyright">
-			Copyright © 2025 Bản quyền thuộc về <strong>CÔNG TY TNHH KỸ THUẬT VIỆT THẮNG LỢI</strong> – ĐKKD số: <strong>0305557155</strong>
-			</p>
-		</div>
-	</footer>
+  <menu>QUÉT MÃ QR SẢN PHẨM</menu>
+
+  <main>
+    <div class="scan-row">
+      <label>Số PO:</label>
+      <div class="input-group">
+        <input type="text" class="poInput" value="PO2025" />
+        <button class="scanPO">📷</button>
+      </div>
+
+      <label>Model:</label>
+      <div class="input-group">
+        <input type="text" class="modelInput" list="modelList" placeholder="Model" />
+        <button class="scanModel">📷</button>
+      </div>
+
+      <datalist id="modelList">
+        <option value="TP48-I-NDI">
+        <option value="SD32X">
+        <option value="SD32T3">
+        <option value="SLP32D">
+        <option value="MTL7728+">
+        <option value="MTL5541">
+        <option value="MTL5532">
+        <option value="MTL5531">
+        <option value="ZB24567">
+      </datalist>
+
+      <label>Mô tả:</label>
+      <div class="input-group">
+        <input type="text" class="descriptionInput" placeholder="Vui lòng nhập mô tả"/>
+        <button class="scanDescription">📷</button>
+      </div>
+
+      <label>Serial:</label>
+      <div class="input-group">
+        <input type="text" class="serialInput" placeholder="Serial"/>
+        <button class="scanSerial">📷</button>
+      </div>
+
+      <button class="saveBtn">Lưu</button>
+    </div>
+
+    <video id="video" autoplay muted playsinline></video>
+
+    <div class="camera-select">
+      <label for="cameraOptions">Chọn thiết bị camera:</label>
+      <select id="cameraOptions"></select>
+    </div>
+
+    <div class="qr-link">
+      📄 <a href="https://docs.google.com/spreadsheets/d/1o3eLseq4V9girr3-zMv73Fi8O8HSXaevqm35ehcie-0/edit?gid=475993363" target="_blank">
+        Mở bảng tổng kết quét mã QR
+      </a>
+    </div>
+
+    <section id="history">
+      <h2>Lịch sử quét</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th>Số PO</th>
+            <th>Model</th>
+            <th>Serial</th>
+            <th>Ngày</th>
+            <th>Giờ</th>
+          </tr>
+        </thead>
+        <tbody id="historyTable"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <p class="copyright">
+        <strong>Copyright © 2025</strong> Bản quyền thuộc về <strong>CÔNG TY TNHH KỸ THUẬT VIỆT THẮNG LỢI</strong> – ĐKKD số: 0305557155
+      </p>
+    </div>
+  </footer>
 </body>
 </html>
